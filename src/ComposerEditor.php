@@ -12,8 +12,9 @@ class ComposerEditor
 
     /**
      * @param string $path
+     * @param bool $withVendor
      */
-    public function __construct(string $path)
+    public function __construct(string $path, bool $withVendor = false)
     {
         $ds = DIRECTORY_SEPARATOR;
         $pathStruct = explode($ds, $path);
@@ -21,9 +22,14 @@ class ComposerEditor
         {
             if(file_exists(implode($ds, $pathStruct) . $ds . 'composer.json'))
             {
-                $this->composerJsonFilePath = implode($ds, $pathStruct) . $ds . 'composer.json';
-                $this->composerJsonDirPath = implode($ds, $pathStruct);
-                break;
+                if(
+                    ($withVendor === false)
+                    || (($withVendor === true) && $this->hasVendorDir(implode($ds, $pathStruct)))
+                ) {
+                    $this->composerJsonFilePath = implode($ds, $pathStruct) . $ds . 'composer.json';
+                    $this->composerJsonDirPath = implode($ds, $pathStruct);
+                    break;
+                }
             }
             array_pop($pathStruct);
         }
@@ -118,6 +124,16 @@ class ComposerEditor
             }
         }
         return implode("\n", $lines);
+    }
+
+    /**
+     * @param string $dirPath
+     * @return bool
+     */
+    protected function hasVendorDir(string $dirPath): bool
+    {
+        $ds = DIRECTORY_SEPARATOR;
+        return is_dir($dirPath . $ds . 'vendor');
     }
 
 }
