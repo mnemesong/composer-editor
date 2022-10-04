@@ -21,6 +21,7 @@ class ComposerEditorTest extends TestCase
     {
         $cje = new ComposerEditor(__DIR__);
         $composerObj = $cje->getComposerJsonAsObj();
+        /* @phpstan-ignore-next-line */
         $this->assertEquals("mnemesong/composer-editor", $composerObj->name);
     }
 
@@ -36,9 +37,11 @@ class ComposerEditorTest extends TestCase
         $cje = new ComposerEditor(__DIR__);
         $composerObj = $cje->getComposerJsonAsObj();
         $this->assertEquals(false, isset($composerObj->aboba));
+        /* @phpstan-ignore-next-line */
         $composerObj->aboba = '111';
         $cje->saveContent($composerObj);
         $composerObj = $cje->getComposerJsonAsObj();
+        /* @phpstan-ignore-next-line */
         $this->assertEquals('111', $composerObj->aboba);
         unset($composerObj->aboba);
         $cje->saveContent($composerObj);

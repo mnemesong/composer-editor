@@ -10,7 +10,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "*",
-        "phpstan/phpstan": "*"
+        "phpstan/phpstan": "*",
+        "phpstan/phpstan-webmozart-assert": "^1.2",
+        "phpstan/extension-installer": "^1.1"
     },
     "license": "MIT",
     "autoload": {
@@ -30,5 +32,9 @@
         "lint:src": "phpstan analyse src --level 9",
         "lint:unit": "phpstan analyse test-unit --level 9"
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+        "phpstan/extension-installer":true}
+    }
 }

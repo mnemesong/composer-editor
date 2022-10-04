@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Mnemesong\ComposerEditor;
 
@@ -9,6 +10,9 @@ class ComposerEditor
     protected string $composerJsonFilePath = '';
     protected string $composerJsonDirPath = '';
 
+    /**
+     * @param string $path
+     */
     public function __construct(string $path)
     {
         $ds = DIRECTORY_SEPARATOR;
@@ -49,7 +53,10 @@ class ComposerEditor
     public function getComposerJsonAsObj(): object
     {
         $content = file_get_contents($this->composerJsonFilePath);
-        return json_decode($content);
+        Assert::notFalse($content);
+        $result = json_decode($content);
+        Assert::object($result);
+        return $result;
     }
 
     /**
@@ -57,7 +64,9 @@ class ComposerEditor
      */
     public function getComposerJsonAsStr(): string
     {
-        return file_get_contents($this->composerJsonFilePath);
+        $result = file_get_contents($this->composerJsonFilePath);
+        Assert::notFalse($result);
+        return $result;
     }
 
     /**
@@ -67,6 +76,7 @@ class ComposerEditor
     public function saveContent(object $contentObj): void
     {
         $content = json_encode($contentObj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        Assert::notFalse($content);
         $content = str_replace(":\"", ": \"", $content);
         $content = str_replace(",", ",\n", $content);
         $content = str_replace(":{", ": {", $content);
