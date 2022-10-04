@@ -5,7 +5,8 @@
     "require": {
         "php": ">=7.4",
         "webmozart/assert": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",

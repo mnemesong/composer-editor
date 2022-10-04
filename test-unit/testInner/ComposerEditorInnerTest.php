@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ComposerEditorInnerTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $cje = new ComposerEditor(__DIR__);
         $ds = DIRECTORY_SEPARATOR;
@@ -15,4 +15,6 @@ class ComposerEditorInnerTest extends TestCase
         $this->assertEquals(implode($ds, $checkPathParts), $cje->getComposerJsonDirPath());
         $this->assertEquals(implode($ds, $checkPathParts) . $ds . 'composer.json', $cje->getComposerJsonFilePath());
     }
+
+
 }

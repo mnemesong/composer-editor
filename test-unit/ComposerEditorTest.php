@@ -17,10 +17,30 @@ class ComposerEditorTest extends TestCase
         $this->assertEquals(implode($ds, $checkPathParts) . $ds . 'composer.json', $cje->getComposerJsonFilePath());
     }
 
-    public function testGetContent(): void
+    public function testGetContentAsObj(): void
     {
         $cje = new ComposerEditor(__DIR__);
-        $composerObj = $cje->getComposerJsonContent();
+        $composerObj = $cje->getComposerJsonAsObj();
         $this->assertEquals("mnemesong/composer-editor", $composerObj->name);
+    }
+
+    public function testGetContentAsStr(): void
+    {
+        $cje = new ComposerEditor(__DIR__);
+        $composerStr = $cje->getComposerJsonAsStr();
+        $this->assertNotEmpty($composerStr);
+    }
+
+    public function testWrite(): void
+    {
+        $cje = new ComposerEditor(__DIR__);
+        $composerObj = $cje->getComposerJsonAsObj();
+        $this->assertEquals(false, isset($composerObj->aboba));
+        $composerObj->aboba = '111';
+        $cje->saveContent($composerObj);
+        $composerObj = $cje->getComposerJsonAsObj();
+        $this->assertEquals('111', $composerObj->aboba);
+        unset($composerObj->aboba);
+        $cje->saveContent($composerObj);
     }
 }
