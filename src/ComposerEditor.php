@@ -6,8 +6,8 @@ use Webmozart\Assert\Assert;
 
 class ComposerEditor
 {
-    protected string $composerJsonPath = '';
-    protected string $composerJsonDir = '';
+    protected string $composerJsonFilePath = '';
+    protected string $composerJsonDirPath = '';
 
     public function __construct(string $path)
     {
@@ -17,14 +17,14 @@ class ComposerEditor
         {
             if(file_exists(implode($ds, $pathStruct) . $ds . 'composer.json'))
             {
-                $this->composerJsonPath = implode($ds, $pathStruct) . $ds . 'composer.json';
-                $this->composerJsonDir = implode($ds, $pathStruct);
+                $this->composerJsonFilePath = implode($ds, $pathStruct) . $ds . 'composer.json';
+                $this->composerJsonDirPath = implode($ds, $pathStruct);
                 break;
             }
             array_pop($pathStruct);
         }
-        Assert::notEmpty($this->composerJsonPath);
-        Assert::notEmpty($this->composerJsonDir);
+        Assert::notEmpty($this->composerJsonFilePath);
+        Assert::notEmpty($this->composerJsonDirPath);
     }
 
     /**
@@ -32,7 +32,7 @@ class ComposerEditor
      */
     public function getComposerJsonFilePath(): string
     {
-        return $this->composerJsonPath;
+        return $this->composerJsonFilePath;
     }
 
     /**
@@ -40,7 +40,16 @@ class ComposerEditor
      */
     public function getComposerJsonDirPath(): string
     {
-        return $this->composerJsonDir;
+        return $this->composerJsonDirPath;
+    }
+
+    /**
+     * @return object
+     */
+    public function getComposerJsonContent(): object
+    {
+        $content = file_get_contents($this->composerJsonFilePath);
+        return json_decode($content);
     }
 
 }
